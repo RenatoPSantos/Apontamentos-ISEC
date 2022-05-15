@@ -5,7 +5,7 @@
 #include <io.h>
 #include <windows.h>
 
-/*
+
 #define NUM_CHAR 26
 
 typedef struct {
@@ -19,18 +19,18 @@ DWORD WINAPI ThreadLer(LPVOID param) {
     ThreadDados* dados = (ThreadDados*)param;
 
     while (1) {
-        //esperar até que evento desbloqueie
+        //esperar atÃ© que evento desbloqueie
         WaitForSingleObject(dados->hEvent, INFINITE);
 
-        //verifica se é preciso terminar a thread ou nao
+        //verifica se Ã© preciso terminar a thread ou nao
         if (dados->terminar)
             break;
 
-        //faço o lock para o mutex
+        //faÃ§o o lock para o mutex
         WaitForSingleObject(dados->hMutex, INFINITE);
         _tprintf(TEXT("Mensagem recebida: %s\n"),dados->fileViewMap);
 
-        //faço unlock do mutex
+        //faÃ§o unlock do mutex
         ReleaseMutex(dados->hMutex);
 
         Sleep(1000);
@@ -52,7 +52,7 @@ DWORD WINAPI ThreadEscrever(LPVOID param) {
             dados->terminar = 1;
 
 
-        //faço lock ao mutex
+        //faÃ§o lock ao mutex
         WaitForSingleObject(dados->hMutex, INFINITE);
 
         //limpa memoria antes de fazer a copia
@@ -68,7 +68,7 @@ DWORD WINAPI ThreadEscrever(LPVOID param) {
         SetEvent(dados->hEvent);
         Sleep(500);
 
-        ResetEvent(dados->hEvent); //torna o evento novamente não assinalado
+        ResetEvent(dados->hEvent); //torna o evento novamente nÃ£o assinalado
     }
 
     return 0;
@@ -95,15 +95,15 @@ int _tmain(int argc, TCHAR* argv[])
         PAGE_READWRITE,
         0,
         NUM_CHAR * sizeof(TCHAR), // alterar o tamanho do filemapping
-        TEXT("SO2_MEM_PART")); //nome do file mapping, tem de ser único
+        TEXT("SO2_MEM_PART")); //nome do file mapping, tem de ser Ãºnico
 
     if (hFileMap == NULL) {
         _tprintf(TEXT("Erro no CreateFileMapping\n"));
-        //CloseHandle(hFile); //recebe um handle e fecha esse handle , no entanto o handle é limpo sempre que o processo termina
+        //CloseHandle(hFile); //recebe um handle e fecha esse handle , no entanto o handle Ã© limpo sempre que o processo termina
         return 1;
     }
 
-    //mapeia bloco de memoria para espaço de endereçamento
+    //mapeia bloco de memoria para espaÃ§o de endereÃ§amento
     dados.fileViewMap = (TCHAR *)MapViewOfFile(
         hFileMap,
         FILE_MAP_ALL_ACCESS,
@@ -158,4 +158,3 @@ int _tmain(int argc, TCHAR* argv[])
     return 0;
 
 }
-*/
